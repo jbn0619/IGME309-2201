@@ -1,0 +1,2 @@
+C:\Users\justi\Google Drive\RIT Work\Year3 Semester1\Data Structure and Algorithms 2\IGME309-2201\E01 - VS19 Config\Solution\x64\Debug\Solution.exe
+C:\Users\justi\Google Drive\RIT Work\Year3 Semester1\Data Structure and Algorithms 2\IGME309-2201\E01 - VS19 Config\Solution\x64\Debug\Solution.pdb
