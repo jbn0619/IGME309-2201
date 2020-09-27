@@ -1,6 +1,3 @@
-/*-------------------------------------------------------------------------------
-This project was generated in 2020
--------------------------------------------------------------------------------*/
 #ifndef _MAIN_H
 #define _MAIN_H
 
@@ -17,4 +14,4 @@ This project was generated in 2020
 
 #include "OpenGL-Tutorials\shader.hpp"
 
-#endif
+#endif // _MAIN_H

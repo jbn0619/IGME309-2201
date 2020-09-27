@@ -18,7 +18,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\..\Downloads\E02 - VS19 GLFW Config\OpenGL-Tutorials\shader.cpp">
+    <ClCompile Include="..\include\OpenGL-Tutorials\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,7 +26,7 @@
     <ClInclude Include="Main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\Downloads\E02 - VS19 GLFW Config\OpenGL-Tutorials\shader.hpp">
+    <ClInclude Include="..\include\OpenGL-Tutorials\shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

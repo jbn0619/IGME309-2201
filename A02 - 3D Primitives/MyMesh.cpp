@@ -275,9 +275,27 @@ void MyMesh::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivisions,
 	Release();
 	Init();
 
-	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
-	// -------------------------------
+	float baseAngle = 360 / a_nSubdivisions;
+	vector3 centerPoint = vector3(0.0f, 0.0f, 0.0f);
+	vector3 coneTip = vector3(0.0f, 0.0f, a_fHeight);
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		float firstAngleToUse = baseAngle * i;
+		float secondAngleToUse = baseAngle * (i + 1);
+
+		// Convert angles from degrees to radians.
+		firstAngleToUse = firstAngleToUse * (PI / 180);
+		secondAngleToUse = secondAngleToUse * (PI / 180);
+
+		// Make the various triangle points.
+		vector3 perimeterStartingPoint = centerPoint + vector3(cos(firstAngleToUse) * a_fRadius, sin(firstAngleToUse) * a_fRadius, 0.0f);
+		vector3 perimeterEndingPoint = centerPoint + vector3(cos(secondAngleToUse) * a_fRadius, sin(secondAngleToUse) * a_fRadius, 0.0f);
+
+		// Once points are made, make a triangle out of them.
+		AddTri(perimeterStartingPoint, centerPoint, perimeterEndingPoint);
+
+		AddTri(coneTip, perimeterStartingPoint, perimeterEndingPoint);
+	}
 
 	// Adding information about color
 	CompleteMesh(a_v3Color);
@@ -299,9 +317,30 @@ void MyMesh::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubdivisi
 	Release();
 	Init();
 
-	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
-	// -------------------------------
+	float baseAngle = 360 / a_nSubdivisions;
+	vector3 centerPoint = vector3(0.0f, 0.0f, 0.0f);
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		float firstAngleToUse = baseAngle * i;
+		float secondAngleToUse = baseAngle * (i + 1);
+
+		// Convert angles from degrees to radians.
+		firstAngleToUse = firstAngleToUse * (PI / 180);
+		secondAngleToUse = secondAngleToUse * (PI / 180);
+
+		// Make the various triangle points.
+		vector3 perimeterStartingPoint = centerPoint + vector3(cos(firstAngleToUse) * a_fRadius, sin(firstAngleToUse) * a_fRadius, 0.0f);
+		vector3 perimeterEndingPoint = centerPoint + vector3(cos(secondAngleToUse) * a_fRadius, sin(secondAngleToUse) * a_fRadius, 0.0f);
+
+		// Once points are made, make a triangle out of them.
+		AddTri(perimeterStartingPoint, centerPoint, perimeterEndingPoint);
+
+		// Doing the second circle-face of the cylinder
+		AddTri(centerPoint + vector3(0.0f, 0.0f, a_fHeight), perimeterStartingPoint + vector3(0.0f, 0.0f, a_fHeight), perimeterEndingPoint + vector3(0.0f, 0.0f, a_fHeight));
+
+		// Make the connecting rectangles
+		AddQuad(perimeterStartingPoint, perimeterEndingPoint, perimeterStartingPoint + vector3(0.0f, 0.0f, a_fHeight), perimeterEndingPoint + vector3(0.0f, 0.0f, a_fHeight));
+	}
 
 	// Adding information about color
 	CompleteMesh(a_v3Color);
@@ -329,9 +368,42 @@ void MyMesh::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float a_fH
 	Release();
 	Init();
 
-	// Replace this with your code
-	GenerateCube(a_fOuterRadius * 2.0f, a_v3Color);
-	// -------------------------------
+	float baseAngle = 360 / a_nSubdivisions;
+	vector3 bottomCenterPoint = vector3(0.0f, 0.0f, 0.0f);
+	vector3 upperCenterPoint = vector3(0.0f, 0.0f, a_fHeight);
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		float firstAngleToUse = baseAngle * i;
+		float secondAngleToUse = baseAngle * (i + 1);
+
+		// Convert angles from degrees to radians.
+		firstAngleToUse = firstAngleToUse * (PI / 180);
+		secondAngleToUse = secondAngleToUse * (PI / 180);
+
+		// Make the outer perimeter points for the bottom and top.
+		vector3 bottomOuterPerimeterStartingPoint = bottomCenterPoint + vector3(cos(firstAngleToUse) * a_fOuterRadius, sin(firstAngleToUse) * a_fOuterRadius, 0.0f);
+		vector3 bottomOuterPerimeterEndingPoint = bottomCenterPoint + vector3(cos(secondAngleToUse) * a_fOuterRadius, sin(secondAngleToUse) * a_fOuterRadius, 0.0f);
+		vector3 upperOuterPerimeterStartingPoint = upperCenterPoint + vector3(cos(firstAngleToUse) * a_fOuterRadius, sin(firstAngleToUse) * a_fOuterRadius, 0.0f);
+		vector3 upperOuterPerimeterEndingPoint = upperCenterPoint + vector3(cos(secondAngleToUse) * a_fOuterRadius, sin(secondAngleToUse) * a_fOuterRadius, 0.0f);
+
+		// Make the inner perimeter points for the bottom and top.
+		vector3 bottomInnerPerimeterStartingPoint = bottomCenterPoint + vector3(cos(firstAngleToUse) * a_fInnerRadius, sin(firstAngleToUse) * a_fInnerRadius, 0.0f);
+		vector3 bottomInnerPerimeterEndingPoint = bottomCenterPoint + vector3(cos(secondAngleToUse) * a_fInnerRadius, sin(secondAngleToUse) * a_fInnerRadius, 0.0f);
+		vector3 upperInnerPerimeterStartingPoint = upperCenterPoint + vector3(cos(firstAngleToUse) * a_fInnerRadius, sin(firstAngleToUse) * a_fInnerRadius, 0.0f);
+		vector3 upperInnerPerimeterEndingPoint = upperCenterPoint + vector3(cos(secondAngleToUse) * a_fInnerRadius, sin(secondAngleToUse) * a_fInnerRadius, 0.0f);
+
+		// Make the bottom rectangle.
+		AddQuad(bottomOuterPerimeterEndingPoint, bottomOuterPerimeterStartingPoint, bottomInnerPerimeterEndingPoint, bottomInnerPerimeterStartingPoint);
+
+		// Make the outer side rectangle.
+		AddQuad(bottomOuterPerimeterStartingPoint, bottomOuterPerimeterEndingPoint, upperOuterPerimeterStartingPoint, upperOuterPerimeterEndingPoint);
+
+		// Make the upper rectangle.
+		AddQuad(upperInnerPerimeterEndingPoint, upperInnerPerimeterStartingPoint, upperOuterPerimeterEndingPoint, upperOuterPerimeterStartingPoint);
+
+		// Make the inner side rectangle.
+		AddQuad(bottomInnerPerimeterEndingPoint, bottomInnerPerimeterStartingPoint, upperInnerPerimeterEndingPoint, upperInnerPerimeterStartingPoint);
+	}
 
 	// Adding information about color
 	CompleteMesh(a_v3Color);
@@ -361,9 +433,43 @@ void MyMesh::GenerateTorus(float a_fOuterRadius, float a_fInnerRadius, int a_nSu
 	Release();
 	Init();
 
-	// Replace this with your code
-	GenerateCube(a_fOuterRadius * 2.0f, a_v3Color);
-	// -------------------------------
+	float baseAngle = 360 / a_nSubdivisionsA;
+	float innerBaseAngle = 360 / a_nSubdivisionsB;
+	vector3 centerPoint = vector3(0.0f, 0.0f, 0.0f);
+	float tubeRadius = (a_fOuterRadius - a_fInnerRadius) / 2;
+	
+	for (int i = 0; i < a_nSubdivisionsA; i++)
+	{
+		float firstAngle = baseAngle * i;
+		float secondAngle = baseAngle * (i + 1);
+
+		// Convert angles from degrees to radians.
+		firstAngle = firstAngle * (PI / 180);
+		secondAngle = secondAngle * (PI / 180);
+
+		float medianRadius = (tubeRadius + a_fInnerRadius);
+
+		for (int j = 0; j < a_nSubdivisionsB; j++) 
+		{
+
+			float thirdAngle = innerBaseAngle * j;
+			float fourthAngle = innerBaseAngle * (j + 1);
+
+			// Convert angles from degrees to radians.
+			thirdAngle = thirdAngle * (PI / 180);
+			fourthAngle = fourthAngle * (PI/ 180);
+
+			// y goes to z
+			// x goes to y
+			vector3 innerPerimStart = centerPoint + vector3((medianRadius + tubeRadius * cos(firstAngle)) * cos(thirdAngle), (medianRadius + tubeRadius * cos(firstAngle)) * sin(thirdAngle), tubeRadius * sin(firstAngle));
+			vector3 innerPerimEnd = centerPoint + vector3((medianRadius + tubeRadius * cos(firstAngle)) * cos(fourthAngle), (medianRadius + tubeRadius * cos(firstAngle)) * sin(fourthAngle), tubeRadius * sin(firstAngle));
+
+			vector3 outerPerimStart = centerPoint + vector3((medianRadius + tubeRadius * cos(secondAngle)) * cos(thirdAngle), (medianRadius + tubeRadius * cos(secondAngle)) * sin(thirdAngle), tubeRadius * sin(secondAngle));
+			vector3 outerPerimEnd = centerPoint + vector3((medianRadius + tubeRadius * cos(secondAngle)) * cos(fourthAngle), (medianRadius + tubeRadius * cos(secondAngle)) * sin(fourthAngle), tubeRadius * sin(secondAngle));
+
+			AddQuad(innerPerimStart, innerPerimEnd, outerPerimStart, outerPerimEnd);
+		}
+	}
 
 	// Adding information about color
 	CompleteMesh(a_v3Color);
@@ -381,14 +487,34 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		return;
 	}
 	if (a_nSubdivisions > 6)
-		a_nSubdivisions = 6;
+		a_nSubdivisions = 6;	
 
 	Release();
 	Init();
 
-	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
-	// -------------------------------
+	for (int i = 0; i < a_nSubdivisions; i++) 
+	{
+		float firstAngle = 2 * PI / a_nSubdivisions * i;
+		float secondAngle = 2 * PI / a_nSubdivisions * (i + 1.0f);
+
+		for (int j = 0; j < a_nSubdivisions; j++)
+		{
+			float thirdAngle = PI / a_nSubdivisions * j;
+			float fourthAngle = PI / a_nSubdivisions * (j + 1.0f);
+
+			// Using the parametric equation for a sphere found here:
+			// http://mathforum.org/library/drmath/view/51726.html
+			// Make the various quad points, then throw them into AddQuad.
+			vector3 innerStart = vector3(a_fRadius * cos(firstAngle) * sin(thirdAngle), a_fRadius * sin(firstAngle) * sin(thirdAngle), a_fRadius * cos(thirdAngle));
+			vector3 innerEnd = vector3(a_fRadius * cos(firstAngle) * sin(fourthAngle), a_fRadius * sin(firstAngle) * sin(fourthAngle), a_fRadius * cos(fourthAngle));
+			vector3 outerStart = vector3(a_fRadius * cos(secondAngle) * sin(thirdAngle), a_fRadius * sin(secondAngle) * sin(thirdAngle), a_fRadius * cos(thirdAngle));
+			vector3 outerEnd = vector3(a_fRadius * cos(secondAngle) * sin(fourthAngle), a_fRadius * sin(secondAngle) * sin(fourthAngle), a_fRadius * cos(fourthAngle));
+
+			// Use AddQuad.
+			AddQuad(innerStart, innerEnd, outerStart, outerEnd);
+		}
+	}
+	
 
 	// Adding information about color
 	CompleteMesh(a_v3Color);

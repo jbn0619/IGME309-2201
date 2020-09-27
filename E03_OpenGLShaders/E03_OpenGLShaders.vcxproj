@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{EDFA3E00-4D79-4DE5-96F7-438EAC3E1103}</ProjectGuid>
-    <RootNamespace>C06_Translation</RootNamespace>
-    <ProjectName>C06_Translation</ProjectName>
+    <ProjectGuid>{9F52929D-92DC-49AD-8D1C-889F4E8C7A0D}</ProjectGuid>
+    <RootNamespace>E03_OpenGLShaders</RootNamespace>
+    <ProjectName>E03_OpenGLShaders</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -98,28 +98,17 @@ xcopy "$(SolutionDir)include\Simplex\Shaders" "$(SolutionDir)_Binary\Shaders" /y
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\C05_Shaders\AppClass.cpp" />
-    <ClCompile Include="..\C05_Shaders\Main.cpp" />
-    <ClCompile Include="..\C05_Shaders\ShaderCompiler.cpp" />
     <ClCompile Include="AppClass.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ShaderCompiler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\C05_Shaders\AppClass.h" />
-    <ClInclude Include="..\C05_Shaders\Main.h" />
-    <ClInclude Include="..\C05_Shaders\ShaderCompiler.h" />
     <ClInclude Include="AppClass.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="ShaderCompiler.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\res\BTO.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\C05_Shaders\C05_Shaders.vcxproj" />
-    <None Include="..\C05_Shaders\C05_Shaders.vcxproj.filters" />
-    <None Include="..\C05_Shaders\C05_Shaders.vcxproj.user" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
